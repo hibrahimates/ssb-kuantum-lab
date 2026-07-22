@@ -15,6 +15,7 @@ import { IntuitionExample } from '../components/lesson/IntuitionExample'
 import { TryThis } from '../components/lesson/TryThis'
 import { PlaygroundSlot } from '../components/lesson/PlaygroundSlot'
 import { QuizEngine } from '../components/quiz/QuizEngine'
+import { useProgressTick } from '../hooks/useProgressTick'
 import { getUnlockRequirement, isModuleUnlocked } from '../lib/scoring'
 
 function ModuleNav({ slug }: { slug: string }) {
@@ -89,6 +90,7 @@ function getModulePlaygrounds(content: ModuleContent): PlaygroundId[] {
 }
 
 export function Modul() {
+  useProgressTick()
   const { slug } = useParams<{ slug: string }>()
   const meta = slug ? getModuleMeta(slug) : undefined
   const content = slug ? getModuleBySlug(slug) : undefined

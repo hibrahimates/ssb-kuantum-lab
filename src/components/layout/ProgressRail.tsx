@@ -1,29 +1,17 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getAllModuleMetas } from '../../content/modules'
+import { useProgressTick } from '../../hooks/useProgressTick'
 import {
   getProgress,
   getQuizScore,
   isModuleComplete,
-  PROGRESS_EVENT,
 } from '../../lib/progress'
 import { isModuleUnlocked } from '../../lib/scoring'
 
 export function ProgressRail() {
+  useProgressTick()
   const modules = getAllModuleMetas()
-  const [, tick] = useState(0)
-
-  useEffect(() => {
-    const refresh = () => tick((n) => n + 1)
-    window.addEventListener(PROGRESS_EVENT, refresh)
-    window.addEventListener('storage', refresh)
-    return () => {
-      window.removeEventListener(PROGRESS_EVENT, refresh)
-      window.removeEventListener('storage', refresh)
-    }
-  }, [])
-
   const progress = getProgress()
   const completedCount = progress.completedModules.length
   const percent = Math.round((completedCount / modules.length) * 100)

@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ProgressRail } from '../components/layout/ProgressRail'
 import { getAllModuleMetas } from '../content/modules'
+import { useProgressTick } from '../hooks/useProgressTick'
 import { isModuleComplete } from '../lib/progress'
 import { isModuleUnlocked, UNLOCK_THRESHOLD } from '../lib/scoring'
 
 export function Yol() {
+  useProgressTick()
   const modules = getAllModuleMetas()
 
   return (

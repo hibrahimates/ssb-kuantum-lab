@@ -1,4 +1,5 @@
 import { getAllModuleMetas } from '../content/modules'
+import { isDevUnlockActive } from './devUnlock'
 import { getQuizScore } from './progress'
 
 export const UNLOCK_THRESHOLD = 70
@@ -18,6 +19,8 @@ export function formatScore(scorePercent: number): string {
 
 /** Soft unlock: module 1 always open; module N requires previous quiz ≥70%. */
 export function isModuleUnlocked(moduleSlug: string): boolean {
+  if (isDevUnlockActive()) return true
+
   const metas = getAllModuleMetas()
   const meta = metas.find((m) => m.slug === moduleSlug)
   if (!meta) return false
