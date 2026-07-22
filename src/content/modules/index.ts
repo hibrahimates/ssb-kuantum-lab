@@ -97,3 +97,16 @@ export function getModuleMeta(slug: string): ModuleMeta | undefined {
 export function getAllModuleMetas(): ModuleMeta[] {
   return [...moduleMetas].sort((a, b) => a.order - b.order)
 }
+
+export function getAdjacentModules(slug: string): {
+  prev?: ModuleMeta
+  next?: ModuleMeta
+} {
+  const metas = getAllModuleMetas()
+  const index = metas.findIndex((m) => m.slug === slug)
+  if (index === -1) return {}
+  return {
+    prev: index > 0 ? metas[index - 1] : undefined,
+    next: index < metas.length - 1 ? metas[index + 1] : undefined,
+  }
+}

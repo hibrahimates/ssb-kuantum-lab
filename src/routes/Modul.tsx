@@ -1,7 +1,11 @@
 import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { getModuleBySlug, getModuleMeta } from '../content/modules'
-import type { ModuleContent, PlaygroundId } from '../content/modules/types'
+import {
+  getAdjacentModules,
+  getModuleBySlug,
+  getModuleMeta,
+} from '../content/modules'
+import type { ModuleContent, ModuleMeta, PlaygroundId } from '../content/modules/types'
 import { LessonBlock } from '../components/lesson/LessonBlock'
 import { Callout } from '../components/lesson/Callout'
 import { CodeBlock } from '../components/lesson/CodeBlock'
@@ -12,6 +16,67 @@ import { TryThis } from '../components/lesson/TryThis'
 import { PlaygroundSlot } from '../components/lesson/PlaygroundSlot'
 import { QuizEngine } from '../components/quiz/QuizEngine'
 import { getUnlockRequirement, isModuleUnlocked } from '../lib/scoring'
+
+function ModuleNav({ slug }: { slug: string }) {
+  const { prev, next } = getAdjacentModules(slug)
+
+  if (!prev && !next) return null
+
+  return (
+    <nav
+      aria-label="Ders geçişi"
+      className="mt-10 flex flex-col gap-3 border-t border-cyan-electric/15 pt-8 sm:flex-row sm:items-stretch sm:justify-between"
+    >
+      {prev ? (
+        <NavLink meta={prev} direction="prev" />
+      ) : (
+        <span className="hidden sm:block sm:flex-1" />
+      )}
+      {next ? (
+        <NavLink meta={next} direction="next" />
+      ) : (
+        <Link
+          to="/yol"
+          className="group flex flex-1 flex-col rounded-xl border border-cyan-electric/20 bg-navy-800/40 px-4 py-3 text-right transition-colors hover:border-cyan-electric/40 hover:bg-navy-800/70 sm:ml-auto sm:max-w-sm"
+        >
+          <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            Sonraki →
+          </span>
+          <span className="mt-1 font-display text-sm font-semibold text-cyan-glow group-hover:text-white">
+            Yol haritası & arena
+          </span>
+        </Link>
+      )}
+    </nav>
+  )
+}
+
+function NavLink({
+  meta,
+  direction,
+}: {
+  meta: ModuleMeta
+  direction: 'prev' | 'next'
+}) {
+  const isPrev = direction === 'prev'
+
+  return (
+    <Link
+      to={`/modul/${meta.slug}`}
+      className={`group flex flex-1 flex-col rounded-xl border border-cyan-electric/20 bg-navy-800/40 px-4 py-3 transition-colors hover:border-cyan-electric/40 hover:bg-navy-800/70 sm:max-w-sm ${
+        isPrev ? 'text-left' : 'text-right sm:ml-auto'
+      }`}
+    >
+      <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
+        {isPrev ? '← Önceki ders' : 'Sonraki ders →'}
+      </span>
+      <span className="mt-1 font-display text-sm font-semibold text-white group-hover:text-cyan-glow">
+        {meta.order}. {meta.title}
+      </span>
+      <span className="mt-0.5 line-clamp-1 text-xs text-slate-500">{meta.subtitle}</span>
+    </Link>
+  )
+}
 
 function getModulePlaygrounds(content: ModuleContent): PlaygroundId[] {
   if (content.playgrounds && content.playgrounds.length > 0) {
@@ -52,12 +117,7 @@ export function Modul() {
           Bu modülün ders içeriği bir sonraki fazda eklenecek. Şimdilik yalnızca meta bilgi
           mevcut.
         </Callout>
-        <Link
-          to="/yol"
-          className="mt-6 inline-block text-sm text-cyan-glow hover:underline"
-        >
-          ← Yol haritası
-        </Link>
+        <ModuleNav slug={slug} />
       </motion.div>
     )
   }
@@ -166,6 +226,8 @@ export function Modul() {
           </Callout>
         )}
       </section>
+
+      <ModuleNav slug={content.slug} />
     </motion.div>
   )
 }
