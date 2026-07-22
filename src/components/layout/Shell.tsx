@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Sidebar, MobileNavToggle, useMobileNav } from './Sidebar'
+import { UnlockToggle } from './UnlockToggle'
 import { setLastLocation } from '../../lib/progress'
 
 interface ShellProps {
@@ -24,6 +25,7 @@ export function Shell({ fullWidth = false }: ShellProps) {
           <span className="font-display text-sm font-semibold text-slate-400 lg:hidden">
             Kuantum Lab
           </span>
+          <UnlockToggle />
         </header>
         <main
           className={`flex-1 ${fullWidth ? '' : 'mx-auto w-full max-w-5xl px-4 py-8 lg:px-8'}`}
