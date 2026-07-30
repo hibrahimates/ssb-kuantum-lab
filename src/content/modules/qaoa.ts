@@ -5,6 +5,10 @@ export const qaoa: ModuleContent = {
   order: 5,
   title: 'QAOA',
   subtitle: 'Mixer, cost Hamiltonian ve parametre landscape',
+  season: 2,
+  seasonTitle: 'Formülasyon',
+  levelLabel: 'Atölye',
+  nextHook: 'QAOA\'yı kavradıysan VQE ile hibrit varyasyonel döngüye geç.',
   goal: 'QAOA’nın cost/mixer Hamiltonian yapısını, p katman parametrelerini ve klasik optimizer döngüsünü kavramak.',
   analogy: {
     title: 'QAOA = radyo istasyonu ayarı',
@@ -54,6 +58,8 @@ export const qaoa: ModuleContent = {
     {
       id: 'structure',
       title: 'QAOA Yapısı',
+      narration:
+        'QAOA, cost ve mixer Hamiltonian\'larını katman katman uygular. γ ve β parametrelerinin ne işe yaradığını birlikte çözeceğiz.',
       body: 'QAOA p katmanlı parametrik devre: başlangıç H⊗n (|+⟩⊗n). Her katmanda U_C(γ)=e^{-iγH_C} maliyet, U_M(β)=e^{-iβH_M} mixer. p=1: tek γ, tek β. p=3: 3 γ + 3 β = 6 Parameter. p artar → yaklaşım kalitesi ↑, Circuit depth ↑.',
       visual: 'viz-radio',
     },
@@ -67,6 +73,18 @@ export const qaoa: ModuleContent = {
       id: 'optimization',
       title: 'Klasik Optimizer Döngüsü',
       body: 'γ=(γ₁…γ_p), β=(β₁…β_p) COBYLA/SPSA/L-BFGS-B ile ayarlanır. Döngü: parametre set → devre çalıştır → ⟨H_C⟩ veya örnek maliyet → güncelle. 50 iterasyon, 4096 shot/iterasyon = 204800 shot — budget planla. Barren plateau: gradient ~0 → farklı başlangıç dene.',
+      scene3d: 'energy-landscape',
+      tryIt: {
+        kind: 'qaoa-params',
+        title: 'QAOA parametreleri dene',
+        starter: `{
+  "gamma": 0.8,
+  "beta": 0.6,
+  "edges": [[0, 1], [1, 2], [2, 3], [3, 0], [0, 2]],
+  "p": 1
+}`,
+        hint: 'γ ve β değerlerini kaydır — beklenen cut ve histogram özeti değişir. p=2 için aynı γ/β tek katman olarak tekrarlanır.',
+      },
     },
     {
       id: 'code',

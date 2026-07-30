@@ -2,9 +2,13 @@ import type { ModuleContent } from './types'
 
 export const cozumDisiplini: ModuleContent = {
   slug: 'cozum-disiplini',
-  order: 10,
+  order: 12,
   title: 'Çözüm Disiplini',
   subtitle: 'Problem okuma → QUBO → algoritma → sunum',
+  season: 4,
+  seasonTitle: 'Yarışma',
+  levelLabel: 'Atölye',
+  nextHook: 'Yolculuk tamam — arenaya ve hackathon playbook\'una hazırsın!',
   goal: 'Yarışma ve hackathon gününde uygulanabilir uçtan uca çözüm disiplinini içselleştirmek.',
   analogy: {
     title: 'Hackathon = operasyon odası checklist',
@@ -52,6 +56,8 @@ export const cozumDisiplini: ModuleContent = {
     {
       id: 'reading',
       title: '1. Problemi Oku ve Parçala',
+      narration:
+        'Hackathon gününde ilk adım problem okumadır. Metni değişkenler, amaç ve kısıtlara ayırmayı birlikte pratik edelim.',
       body: 'Metni değişkenler, amaç, kısıtlar, gizli varsayımlar olarak ayır. Örnek not: “5 varlık, k=2, tech≤1, minimize risk−getiri”. Takımda whiteboard meydan okuma — 10 dk. Toy kelimesi basitleştirme izni; kısıt yapısı korunur.',
     },
     {

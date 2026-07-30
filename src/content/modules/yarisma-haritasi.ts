@@ -5,7 +5,13 @@ export const yarismaHaritasi: ModuleContent = {
   order: 1,
   title: 'Yarışma Haritası',
   subtitle: 'SSB Kuantum Algoritma Yarışması sürecine genel bakış',
-  goal: 'Yarışmanın aşamalarını, takım gereksinimlerini ve hazırlık önceliklerini anlamak — labirent haritasını okuyup hangi kapıdan gireceğini bilmek gibi.',
+  season: 1,
+  seasonTitle: 'Temeller',
+  levelLabel: 'Keşif',
+  nextHook: 'Haritayı okuduysan sıradaki durak: klasik optimizasyon köprüsü.',
+  goalNarration:
+    'Hoş geldin! Bu modülde sıfırdan kahramana yolculuğunun haritasını çıkaracağız — yarışmanın aşamalarını, takım yapısını ve hangi konulara önce odaklanacağını birlikte netleştireceğiz.',
+  goal: 'Sıfırdan kahramana yolculuğuna hoş geldin — yarışmanın aşamalarını, takım gereksinimlerini ve ilk adımlarda nelere odaklanacağını anlamak. Haritayı okuyup yolculuğa nereden başlayacağını bileceksin.',
   analogy: {
     title: 'Yarışma = çok aşamalı labirent',
     text: 'SSB Kuantum Algoritma Yarışması bir labirent gibidir: ön eleme koridorları (sınav, çözüm, sunum) final salonuna açılır. Takımın 3–6 kişi olması, herkesin aynı kapıdan girmesi değil — biri haritayı okur (formülasyon), biri pusulayı tutar (kod), biri yolu işaretler (sunum). Bu laboratuvar modülleri labirentin duvarlarına yazılmış ipuçlarıdır.',
@@ -50,7 +56,9 @@ export const yarismaHaritasi: ModuleContent = {
     {
       id: 'overview',
       title: 'Yarışma Aşamaları',
-      body: 'SSB Kuantum Algoritma Yarışması üç ana aşamadan oluşur: başvuru, ön eleme (çevrimiçi sınav + çözüm geliştirme + sunum) ve final hackathon. Her aşama farklı becerileri ölçer — teorik bilgi, formülasyon yeteneği ve takım halinde uygulama. Örnek zaman çizelgesi: başvuru kapandıktan sonra 2 hafta sınav hazırlığı, 3 hafta çözüm geliştirme, 1 hafta sunum provası.',
+      narration:
+        'Merhaba! Sıfırdan kahramana yolculuğuna hoş geldin — bu bölümde SSB Kuantum Yarışması\'nın üç ana aşamasını birlikte haritalayacağız: başvuru, ön eleme ve final hackathon.',
+      body: 'SSB Kuantum Algoritma Yarışması, bu laboratuvardaki modüllerle birlikte sıfırdan kahramana giden bir yolculuktur. Üç ana durak var: başvuru, ön eleme (çevrimiçi sınav + çözüm geliştirme + sunum) ve final hackathon. Her aşama farklı becerileri ölçer — teorik bilgi, formülasyon yeteneği ve takım halinde uygulama. Örnek zaman çizelgesi: başvuru kapandıktan sonra 2 hafta sınav hazırlığı, 3 hafta çözüm geliştirme, 1 hafta sunum provası.',
     },
     {
       id: 'team',

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { getAllModuleMetas } from '../../content/modules'
+import { getAllModuleMetas, groupModulesBySeason } from '../../content/modules'
 import { useProgressTick } from '../../hooks/useProgressTick'
 import {
   getProgress,
@@ -9,9 +9,12 @@ import {
 } from '../../lib/progress'
 import { isModuleUnlocked } from '../../lib/scoring'
 
+const SEASON_ORDER = [1, 2, 3, 4] as const
+
 export function ProgressRail() {
   useProgressTick()
   const modules = getAllModuleMetas()
+  const seasonGroups = groupModulesBySeason(modules)
   const progress = getProgress()
   const completedCount = progress.completedModules.length
   const percent = Math.round((completedCount / modules.length) * 100)
@@ -30,46 +33,60 @@ export function ProgressRail() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
         />
       </div>
-      <ol className="space-y-2">
-        {modules.map((mod) => {
-          const done = isModuleComplete(mod.slug)
-          const score = getQuizScore(mod.slug)
-          const unlocked = isModuleUnlocked(mod.slug)
+      <div className="space-y-4">
+        {SEASON_ORDER.map((seasonNum) => {
+          const seasonModules = seasonGroups.get(seasonNum)
+          if (!seasonModules || seasonModules.length === 0) return null
 
           return (
-            <li key={mod.slug}>
-              <Link
-                to={`/modul/${mod.slug}`}
-                className="group flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-navy-700/40"
-              >
-                <span
-                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-                    done
-                      ? 'bg-cyan-electric/20 text-cyan-glow'
-                      : unlocked
-                        ? 'border border-cyan-electric/30 text-cyan-electric'
-                        : 'border border-slate-700 text-slate-600'
-                  }`}
-                >
-                  {done ? '✓' : unlocked ? mod.order : '🔒'}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p
-                    className={`truncate text-sm font-medium ${
-                      done ? 'text-cyan-100' : 'text-slate-300 group-hover:text-white'
-                    }`}
-                  >
-                    {mod.title}
-                  </p>
-                  {score !== undefined && (
-                    <p className="text-xs text-slate-500">Quiz: %{score}</p>
-                  )}
-                </div>
-              </Link>
-            </li>
+            <div key={seasonNum}>
+              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
+                S{seasonNum} · {seasonModules[0].seasonTitle}
+              </p>
+              <ol className="space-y-1">
+                {seasonModules.map((mod) => {
+                  const done = isModuleComplete(mod.slug)
+                  const score = getQuizScore(mod.slug)
+                  const unlocked = isModuleUnlocked(mod.slug)
+
+                  return (
+                    <li key={mod.slug}>
+                      <Link
+                        to={`/modul/${mod.slug}`}
+                        className="group flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-navy-700/40"
+                      >
+                        <span
+                          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                            done
+                              ? 'bg-cyan-electric/20 text-cyan-glow'
+                              : unlocked
+                                ? 'border border-cyan-electric/30 text-cyan-electric'
+                                : 'border border-slate-700 text-slate-600'
+                          }`}
+                        >
+                          {done ? '✓' : unlocked ? mod.order : '🔒'}
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p
+                            className={`truncate text-sm font-medium ${
+                              done ? 'text-cyan-100' : 'text-slate-300 group-hover:text-white'
+                            }`}
+                          >
+                            {mod.title}
+                          </p>
+                          {score !== undefined ? (
+                            <p className="text-xs text-slate-500">Quiz: %{score}</p>
+                          ) : null}
+                        </div>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ol>
+            </div>
           )
         })}
-      </ol>
+      </div>
     </div>
   )
 }

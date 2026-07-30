@@ -9,6 +9,7 @@ import { Arena } from './routes/Arena'
 import { Hackathon } from './routes/Hackathon'
 import { Terimler } from './routes/Terimler'
 import { Hakkinda } from './routes/Hakkinda'
+import { Kaynaklar } from './routes/Kaynaklar'
 import { installDevUnlockListener } from './lib/devUnlock'
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/arena" element={<Arena />} />
           <Route path="/hackathon" element={<Hackathon />} />
           <Route path="/terimler" element={<Terimler />} />
+          <Route path="/kaynaklar" element={<Kaynaklar />} />
           <Route path="/hakkinda" element={<Hakkinda />} />
         </Route>
       </Routes>

@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion'
+import { ListenButton } from './ListenButton'
 
 interface LessonBlockProps {
   title: string
+  narration?: string
   children: React.ReactNode
 }
 
-export function LessonBlock({ title, children }: LessonBlockProps) {
+export function LessonBlock({ title, narration, children }: LessonBlockProps) {
   return (
     <motion.section
       initial={{ opacity: 0, y: 12 }}
@@ -13,7 +15,10 @@ export function LessonBlock({ title, children }: LessonBlockProps) {
       transition={{ duration: 0.35 }}
       className="mb-8"
     >
-      <h2 className="mb-3 font-display text-xl font-semibold text-white">{title}</h2>
+      <div className="mb-3 flex flex-wrap items-center gap-3">
+        <h2 className="font-display text-xl font-semibold text-white">{title}</h2>
+        {narration ? <ListenButton text={narration} /> : null}
+      </div>
       <div className="prose prose-invert max-w-none text-slate-300 leading-relaxed">{children}</div>
     </motion.section>
   )

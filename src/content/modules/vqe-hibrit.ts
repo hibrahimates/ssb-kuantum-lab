@@ -5,6 +5,10 @@ export const vqeHibrit: ModuleContent = {
   order: 6,
   title: 'VQE Hibrit',
   subtitle: 'Ansatz, varyasyonel döngü ve optimizer rolü',
+  season: 2,
+  seasonTitle: 'Formülasyon',
+  levelLabel: 'Atölye',
+  nextHook: 'Formülasyon sezonu bitti — IBM Quantum Platform ile Araçlar sezonuna geç.',
   goal: 'VQE’nin varyasyonel prensibini, Ansatz seçimini ve QAOA ile farkını anlamak.',
   analogy: {
     title: 'VQE = ayarlanabilir tarif + tadım döngüsü',
@@ -53,6 +57,8 @@ export const vqeHibrit: ModuleContent = {
     {
       id: 'principle',
       title: 'Varyasyonel Prensip',
+      narration:
+        'VQE, parametrik bir devre ile enerjiyi minimize eder. Klasik optimizer ile kuantum devre arasındaki döngüyü adım adım anlayalım.',
       body: 'VQE parametrik devre |ψ(θ)⟩ ile ⟨ψ(θ)|H|ψ(θ)⟩ minimize edilir. Optimizasyonda H problem Hamiltonian\'ı (QUBO maliyeti). Klasik optimizer θ günceller; kuantum devre enerji tahmini döner. Örnek: θ=(0.1,0.5,1.2) → ⟨H⟩=4.7 → optimizer θ\'yi günceller → ⟨H⟩=3.1.',
     },
     {

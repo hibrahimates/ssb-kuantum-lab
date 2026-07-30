@@ -5,6 +5,10 @@ export const klasikKopru: ModuleContent = {
   order: 2,
   title: 'Klasik Köprü',
   subtitle: 'Maliyet fonksiyonu, kısıt ve kombinatoriyel zorluk',
+  season: 1,
+  seasonTitle: 'Temeller',
+  levelLabel: 'Keşif',
+  nextHook: 'Klasik dil oturduysa kuantum dünyasına geç: qubit ve süperpozisyon seni bekliyor.',
   goal: 'Klasik optimizasyon dilini (değişken, maliyet, kısıt, Penalty) kuantum formülasyonuna taşıyabilecek seviyede pekiştirmek.',
   analogy: {
     title: 'Optimizasyon = ceza puanlı bulmaca',
@@ -53,6 +57,8 @@ export const klasikKopru: ModuleContent = {
     {
       id: 'cost',
       title: 'Maliyet Fonksiyonu Nedir?',
+      narration:
+        'Optimizasyonun kalbi maliyet fonksiyonudur. Bu bölümde değişken atadıkça maliyetin nasıl hesaplandığını, yarışma problemlerine nasıl çevrileceğini konuşacağız.',
       body: 'Optimizasyon probleminin özü bir maliyet fonksiyonunu minimize (veya maximize) etmektir. Değişkenler atandıkça maliyet hesaplanır; en iyi atama en düşük maliyeti verir. Örnek: 3 proje {P1,P2,P3}, maliyetler {40,25,55} — minimize P2+P3 = 80 vs P1+P2 = 65. Yarışmada senaryo “iş yükü dağıtımı”, “Portfolio” veya “Routing” metaforuyla gelir; önce bunu xᵢ ve Σ cᵢxᵢ diline çevir.',
     },
     {

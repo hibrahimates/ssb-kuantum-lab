@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 const navItems = [
   { to: '/', label: 'Ana Sayfa', end: true },
   { to: '/yol', label: 'Yol Haritası' },
+  { to: '/kaynaklar', label: 'Kaynaklar' },
   { to: '/arena', label: 'Ön Eleme Arenası' },
   { to: '/hackathon', label: 'Hackathon' },
   { to: '/terimler', label: 'Terimler' },
@@ -48,7 +49,7 @@ export function Sidebar({ mobileOpen, onClose }: SidebarProps) {
           <NavLink to="/" className="font-display text-lg font-bold text-gradient-cyan">
             Kuantum Lab
           </NavLink>
-          <p className="mt-1 text-xs text-slate-500">SSB Yarışma Hazırlığı</p>
+          <p className="mt-1 text-xs text-slate-500">Zero → Hero</p>
         </div>
         <div className="flex-1 overflow-y-auto p-3">
           <NavItems />
@@ -56,7 +57,7 @@ export function Sidebar({ mobileOpen, onClose }: SidebarProps) {
       </aside>
 
       <AnimatePresence>
-        {mobileOpen && (
+        {mobileOpen ? (
           <>
             <motion.div
               initial={{ opacity: 0 }}
@@ -90,7 +91,7 @@ export function Sidebar({ mobileOpen, onClose }: SidebarProps) {
               </div>
             </motion.aside>
           </>
-        )}
+        ) : null}
       </AnimatePresence>
     </>
   )

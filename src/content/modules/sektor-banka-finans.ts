@@ -2,9 +2,13 @@ import type { ModuleContent } from './types'
 
 export const sektorBankaFinans: ModuleContent = {
   slug: 'sektor-banka-finans',
-  order: 8,
+  order: 10,
   title: 'Sektör: Banka & Finans',
   subtitle: 'Portföy ve risk toy QUBO problemleri',
+  season: 4,
+  seasonTitle: 'Yarışma',
+  levelLabel: 'Atölye',
+  nextHook: 'Banka sezgisi oturdu — haberleşme routing ve kanal atamasına geç.',
   goal: 'Bankacılık/finans metaforlu optimizasyon problemlerini QUBO diline çevirmek için sezgi geliştirmek.',
   analogy: {
     title: 'Portfolio = alışveriş sepeti + bütçe cezası',
@@ -53,6 +57,8 @@ export const sektorBankaFinans: ModuleContent = {
     {
       id: 'portfolio',
       title: 'Portföy Seçimi Toy Modeli',
+      narration:
+        'Bankacılık problemlerini QUBO diline çevirirken portföy seçimi en sık karşılaşacağın senaryolardan biri. Toy modelle başlayalım.',
       body: 'n varlıktan k tanesini seç: xᵢ∈{0,1}. Maliyet: −Σ rᵢ xᵢ + risk (Σᵢⱼ Qᵢⱼ xᵢ xⱼ). Kısıt Σ xᵢ = k → Penalty λ(Σ xᵢ − k)². Örnek n=4, k=2, r=[0.08,0.12,0.05,0.15]: brute-force optimal (0,1,0,1) getiri 0.27.',
       miniPlayground: 'knapsack',
     },

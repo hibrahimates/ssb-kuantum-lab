@@ -9,7 +9,7 @@ export function Hakkinda() {
       <h1 className="font-display text-3xl font-bold text-white">Hakkında</h1>
       <p className="mt-2 max-w-2xl text-slate-400">
         Kuantum Lab, SSB Kuantum Algoritma Yarışması&apos;na hazırlanmak isteyen takımlar
-        için ücretsiz, tarayıcı tabanlı bir eğitim laboratuvarıdır.
+        için ücretsiz, tarayıcı tabanlı bir zero-to-hero eğitim laboratuvarıdır.
       </p>
 
       <section className="mt-8 space-y-4 text-slate-300">
@@ -29,7 +29,25 @@ export function Hakkinda() {
             </Link>{' '}
             sayfasından EN→TR glossar&apos;a bak.
           </li>
+          <li>
+            IBM Quantum hesabı ve Qiskit kurulumu için{' '}
+            <Link to="/kaynaklar" className="text-cyan-glow hover:underline">
+              Kaynaklar
+            </Link>{' '}
+            sayfasındaki resmi linkleri kullan; Sezon 3 modüllerini tamamla.
+          </li>
         </ol>
+      </section>
+
+      <section className="mt-8 rounded-xl border border-cyan-electric/15 bg-navy-800/40 p-6">
+        <h2 className="font-display text-lg font-semibold text-white">IBM & Qiskit kaynakları</h2>
+        <p className="mt-2 text-sm text-slate-400">
+          Platform, eğitim, kurulum ve simülatör linkleri SSB duyurusuna göre{' '}
+          <Link to="/kaynaklar" className="text-cyan-glow hover:underline">
+            Kaynaklar
+          </Link>{' '}
+          sayfasında toplanmıştır.
+        </p>
       </section>
 
       <section className="mt-8 rounded-xl border border-cyan-electric/15 bg-navy-800/40 p-6">

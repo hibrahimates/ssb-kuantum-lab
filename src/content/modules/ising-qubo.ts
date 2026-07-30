@@ -5,6 +5,10 @@ export const isingQubo: ModuleContent = {
   order: 4,
   title: 'Ising & QUBO',
   subtitle: 'Binary encoding ve Max-Cut → QUBO dönüşümü',
+  season: 2,
+  seasonTitle: 'Formülasyon',
+  levelLabel: 'Atölye',
+  nextHook: 'QUBO\'yu yazdıysan sıradaki adım: QAOA ile arama uzayında gezinmek.',
   goal: 'Ising ve QUBO formlarını tanımak, Max-Cut gibi problemleri ikinci dereceden ikili modele dönüştürmek.',
   analogy: {
     title: 'QUBO = ceza puanlı bulmaca matrisi',
@@ -53,6 +57,8 @@ export const isingQubo: ModuleContent = {
     {
       id: 'qubo-def',
       title: 'QUBO Formu',
+      narration:
+        'QUBO, optimizasyon problemini ikinci dereceden ikili forma çevirir. Bu bölümde Q matrisinin yapısını ve Penalty terimlerinin nasıl gömüldüğünü konuşacağız.',
       body: 'QUBO minimize edilecek fonksiyon: E(x) = Σᵢ Qᵢᵢ xᵢ + Σᵢ<ⱼ Qᵢⱼ xᵢ xⱼ, xᵢ ∈ {0,1}. Örnek: Q₁₁=4, Q₂₂=1, Q₁₂=2 → x=(1,1) maliyeti 4+1+2=7. Kısıtsız görünse de Penalty terimleri Q\'ya gömülür. Qiskit Optimization doğrudan QUBO kabul eder.',
       miniPlayground: 'qubo',
     },
@@ -65,6 +71,15 @@ export const isingQubo: ModuleContent = {
       id: 'maxcut',
       title: 'Max-Cut → QUBO Örneği',
       body: 'Max-Cut: düğümleri iki kümeye böl, kesilen kenar ağırlıklarını maximize et. Minimize konvansiyonunda C = Σ_{(i,j)∈E} wᵢⱼ (xᵢ − xⱼ)² açılır. 2 düğüm tek kenar w=3: x farklıysa cut=3. Dikkat: işaret konvansiyonunu karıştırma — önce toy n=3 brute-force doğrula.',
+      tryIt: {
+        kind: 'qubo-config',
+        title: 'Max-Cut → QUBO dene',
+        starter: `{
+  "edges": [[0, 1], [1, 2], [0, 2]],
+  "n": 3
+}`,
+        hint: 'Kenar listesini değiştir — Q matrisi ve en iyi bitstring anında güncellenir. Üçgen graf için optimal cut=2.',
+      },
     },
     {
       id: 'validation',

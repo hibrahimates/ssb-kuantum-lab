@@ -35,7 +35,7 @@ export function ResultCard({
       </p>
       <p className="mt-3 text-sm text-slate-400">
         {passed
-          ? 'Sonraki modül kilidi açıldı. Yol haritasından devam edebilirsin.'
+          ? 'Seviye açıldı — sonraki ders seni bekliyor. Yol haritasından devam edebilirsin.'
           : `Geçmek için en az %${UNLOCK_THRESHOLD} gerekli. Şu an ${isUnlocked(scorePercent) ? 'geçtin' : 'geçemedin'}.`}
       </p>
       {!passed && onRetry && (

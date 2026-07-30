@@ -2,9 +2,13 @@ import type { ModuleContent } from './types'
 
 export const sektorHaberlesme: ModuleContent = {
   slug: 'sektor-haberlesme',
-  order: 9,
+  order: 11,
   title: 'Sektör: Haberleşme',
   subtitle: 'Routing ve kanal atama kısıtları',
+  season: 4,
+  seasonTitle: 'Yarışma',
+  levelLabel: 'Atölye',
+  nextHook: 'Sektör senaryolarını gördün — son adım çözüm disiplini checklist\'i.',
   goal: 'Haberleşme ağı optimizasyon senaryolarında Routing, kanal atama ve interference kısıtlarını QUBO Penalty terimlerine dönüştürmek.',
   analogy: {
     title: 'Kanal atama = komşu apartmanlara farklı Wi-Fi kanalı',
@@ -53,6 +57,8 @@ export const sektorHaberlesme: ModuleContent = {
     {
       id: 'routing',
       title: 'Routing Toy Problemi',
+      narration:
+        'Haberleşme ağlarında routing ve kanal atama birbirine bağlı kısıtlar taşır. Bu bölümde toy routing modelini QUBO\'ya nasıl çevireceğimizi konuşacağız.',
       body: 'Trafik yönlendirme: talep t yol y seçer, kapasite aşılmaz. İkili x_{t,y}∈{0,1}. Kapasite kısıtı Penalty: λ(Σ_t x_{t,y} − cap_y)². Graf: düğümler POP/router, kenarlar link — ağırlık gecikme veya kapasite maliyeti.',
     },
     {

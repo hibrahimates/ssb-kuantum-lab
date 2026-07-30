@@ -5,6 +5,10 @@ export const kuantumTemeller: ModuleContent = {
   order: 3,
   title: 'Kuantum Temeller',
   subtitle: 'Qubit, süperpozisyon, ölçüm ve dolaşıklık',
+  season: 1,
+  seasonTitle: 'Temeller',
+  levelLabel: 'Keşif',
+  nextHook: 'Temeller tamam — şimdi Max-Cut\'u QUBO\'ya çevirme zamanı.',
   goal: 'Optimizasyon algoritmalarını anlamak için gerekli minimum kuantum kavramlarını (Qubit, ölçüm, devre) oturtmak.',
   analogy: {
     title: 'Qubit = pusula iğnesi + yazı-tura',
@@ -54,14 +58,34 @@ export const kuantumTemeller: ModuleContent = {
     {
       id: 'qubit',
       title: 'Qubit ve Süperpozisyon',
+      narration:
+        'Klasik bit kesin 0 veya 1 iken qubit havada dönen bir para gibidir. Süperpozisyonu, ölçüm olasılıklarını ve optimizasyondaki rolünü birlikte keşfedelim.',
       body: 'Klasik bit 0 veya 1 iken, Qubit |ψ⟩ = α|0⟩ + β|1⟩ durumunda her iki tabanı aynı anda taşıyabilir — buna Superposition denir. |α|² ve |β|² ölçüm olasılıklarıdır; toplamları 1 olmalıdır. Örnek: α=0.9, β=0.436 → P(0)=0.81, P(1)=0.19. Optimizasyonda her Qubit bir ikili karar değişkenini temsil eder.',
       visual: 'viz-coin',
+      scene3d: 'bloch-sphere',
     },
     {
       id: 'measurement',
       title: 'Ölçüm ve Shot',
       body: 'Qubit ölçüldüğünde Superposition çöker ve 0 veya 1 sonucu alınır. 100 Shot, P(1)=0.7 ise ~70 kez 1 görürsün (±7 sapma normal). QAOA çıktısı olasılık dağılımıdır — en sık ölçülen bitstring aday çözümdür; kısıt kontrolü ve Post-processing gerekebilir.',
       miniPlayground: 'shots',
+      scene3d: 'superposition-wave',
+      tryIt: {
+        kind: 'lab-js',
+        title: 'Hadamard ve ölçüm dene',
+        starter: `// Hadamard |+⟩ durumu: P(0)=P(1)=0.5
+const h = hadamardToy();
+print("Hadamard |+⟩:", "P(0)=", h.p0, "P(1)=", h.p1);
+
+// 20 ölçüm simülasyonu
+const results = [];
+for (let i = 0; i < 20; i++) {
+  results.push(measure(0.5));
+}
+print("20 ölçüm:", results.join(""));
+print("1 sayısı:", results.filter(x => x === 1).length);`,
+        hint: 'measure(0.5) her seferinde rastgele 0 veya 1 döner — çok shot ile ~%50/%50 dağılım oluşur.',
+      },
     },
     {
       id: 'gates',
@@ -72,6 +96,7 @@ export const kuantumTemeller: ModuleContent = {
       id: 'entanglement',
       title: 'Dolaşıklık Neden Önemli?',
       body: 'Entanglement, Qubitler arasında klasik kopyalanamayan korelasyon yaratır. Product state tüm kombinasyonları bağımsız temsil edemez; optimizasyon algoritmaları dolaşık ansatz ile arama uzayını verimli tarar. NISQ\'ta Circuit depth arttıkça decoherence artar — p=1 QAOA sığ, p=3 derin sayılır.',
+      scene3d: 'entangle-pair',
     },
   ],
   quiz: [

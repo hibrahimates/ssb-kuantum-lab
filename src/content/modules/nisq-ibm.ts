@@ -2,9 +2,13 @@ import type { ModuleContent } from './types'
 
 export const nisqIbm: ModuleContent = {
   slug: 'nisq-ibm',
-  order: 7,
+  order: 9,
   title: 'NISQ & IBM',
   subtitle: 'Gürültü, shot, transpile ve simulator vs QPU',
+  season: 3,
+  seasonTitle: 'Araçlar & IBM',
+  levelLabel: 'Atölye',
+  nextHook: 'NISQ ve sim/QPU farkını kavradın — Sezon 4’te banka ve haberleşme senaryoları seni bekliyor.',
   goal: 'NISQ kısıtlarını, IBM Quantum stack’ini ve simülatör ile QPU arasındaki pratik farkları bilmek.',
   analogy: {
     title: 'NISQ QPU = sisli hava fotoğraf makinesi',
@@ -53,13 +57,34 @@ export const nisqIbm: ModuleContent = {
     {
       id: 'nisq',
       title: 'NISQ Dönemi',
+      narration:
+        'NISQ cihazlar gürültülü ama gerçek. Bu bölümde gate hataları, decoherence ve derinlik kısıtlarını konuşacağız.',
       body: 'NISQ cihazlar yüzlerce Qubit\'e ölçeklenir ama fault-tolerant hata düzeltme pratik değildir. Gate hatası ~0.1–1%, T1/T2 decoherence, readout hatası. Örnek: 50 kapılı devre, kapı başına %0.5 hata → toplam başarı ~0.995⁵⁰≈78%. Circuit depth birincil kısıt.',
+      scene3d: 'noise-cloud',
     },
     {
       id: 'shots',
       title: 'Shot, Sampler ve Estimator',
       body: 'Shot: tekrarlı çalıştırma + histogram. Sampler bitstring dağılımı; Estimator ⟨O⟩ tahmini. QAOA iterasyonunda Estimator pahalı — shot budget planla. Örnek config: shots=4096, rep_delay=0.002s → job süresi backend kuyruğuna bağlı.',
       miniPlayground: 'shots',
+      tryIt: {
+        kind: 'lab-js',
+        title: 'Shot histogramı dene',
+        starter: `// Gürültüsüz teorik P(1)=0.7 vs shot sayısı
+const prob1 = 0.7;
+const shots = 256;
+const hist = shotsHistogram(prob1, shots);
+
+print("P(1) teorik:", prob1, "| shot:", shots);
+for (const bit of ["0", "1"]) {
+  const count = hist[bit];
+  print(bit + ":", count, "(" + (100 * count / shots).toFixed(1) + "%)");
+}
+print("");
+print("Not: Az shot → dalgalı histogram.");
+print("QPU gürültüsü ek sapma yaratır (simülatörde yok).");`,
+        hint: 'shots değerini 64 → 1024 yap — dağılım teorik %70/%30\'a yaklaşır.',
+      },
     },
     {
       id: 'transpile',
@@ -89,14 +114,38 @@ result = job.result()[0].data.meas.get_counts()
       },
     },
     {
+      id: 'local-sim',
+      title: 'Aer ve Yerel Simülatörler',
+      narration:
+        'Bulut simülatörleri kaldırıldı — geliştirme artık yerelde. Aer, fake backend ve noise model burada devreye girer.',
+      body: 'Resmi rehber: [Local simulators](https://quantum.cloud.ibm.com/docs/en/guides/local-simulators). **qiskit-aer** ile `AerSimulator()` statevector veya shot modunda çalışır — gürültüsüz, hızlı iterasyon. **Fake backend** (`FakeManilaV2` vb.): gerçek cihazın kapı seti ve coupling map’ini taklit eder; transpile testi için ideal. **Noise model** ekleyerek QPU sapmasını yerelde önceden gör. **Not:** IBM bulut simülatör backend’leri (eski `ibmq_qasm_simulator` vb.) deprecated/kaldırıldı — yeni pipeline yerel Aer + Runtime QPU.',
+    },
+    {
       id: 'sim-vs-qpu',
       title: 'Simülatör vs QPU',
-      body: 'Simülatör (statevector): gürültüsüz, hızlı iterasyon — formülasyon ve Parameter taraması. QPU: gerçek gürültü, kuyruk — sonuçlar sapabilir. Örnek tablo satırı: | backend | shots | p | top bitstring | maliyet | geçerli? |. Sunumda en az 3 satır.',
+      body: 'Yerel Aer (statevector): gürültüsüz, hızlı iterasyon — formülasyon ve Parameter taraması. Fake backend + noise: QPU’ya yakın profil, hâlâ yerel. Gerçek QPU: kuyruk, gerçek gürültü — sonuçlar sapabilir. Örnek tablo satırı: | backend | shots | p | top bitstring | maliyet | geçerli? |. Sunumda en az 3 satır: Aer, fake+noise, QPU.',
     },
     {
       id: 'pseudo-config',
       title: 'Manipüle Edilebilir Pseudo-Config',
-      body: 'Gerçek QPU\'ya gitmeden önce şu dörtlüyü tablola: (1) backend = aer_simulator / ibm_xxx, (2) optimization_level = 0–3, (3) shots = 1024–8192, (4) p = 1–2. Debug turu: sim + level 0 + 1024 shot. Final turu: QPU + level 3 + 4096 shot + aynı seed. Değiştirdiğinde neyi gözlemlemen gerektiğini yanına yaz.',
+      body: 'Gerçek QPU\'ya gitmeden önce şu dörtlüyü tablola: (1) backend = AerSimulator / FakeBackend / ibm_xxx, (2) optimization_level = 0–3, (3) shots = 1024–8192, (4) p = 1–2. Debug turu: Aer + level 0 + 1024 shot. Transpile testi: fake backend + level 3. Final turu: QPU + level 3 + 4096 shot + aynı seed. Değiştirdiğinde neyi gözlemlemen gerektiğini yanına yaz.',
+    },
+  ],
+  resources: [
+    {
+      label: 'Local Simulators (resmi)',
+      url: 'https://quantum.cloud.ibm.com/docs/en/guides/local-simulators',
+      note: 'Aer, fake backend, noise model',
+    },
+    {
+      label: 'IBM Quantum Platform',
+      url: 'https://quantum.cloud.ibm.com/',
+      note: 'QPU job ve Runtime',
+    },
+    {
+      label: 'Install Qiskit',
+      url: 'https://quantum.cloud.ibm.com/docs/en/guides/install-qiskit',
+      note: 'qiskit-aer kurulumu',
     },
   ],
   quiz: [

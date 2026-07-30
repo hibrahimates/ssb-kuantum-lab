@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
@@ -14,9 +15,13 @@ import { AnalogyCard } from '../components/lesson/AnalogyCard'
 import { IntuitionExample } from '../components/lesson/IntuitionExample'
 import { TryThis } from '../components/lesson/TryThis'
 import { PlaygroundSlot } from '../components/lesson/PlaygroundSlot'
+import { ListenButton } from '../components/lesson/ListenButton'
+import { TryItLab } from '../components/lesson/TryItLab'
+import { SceneHost } from '../components/three/SceneHost'
 import { QuizEngine } from '../components/quiz/QuizEngine'
 import { useProgressTick } from '../hooks/useProgressTick'
 import { getUnlockRequirement, isModuleUnlocked } from '../lib/scoring'
+import { stopSpeaking } from '../lib/tts'
 
 function ModuleNav({ slug }: { slug: string }) {
   const { prev, next } = getAdjacentModules(slug)
@@ -98,6 +103,12 @@ export function Modul() {
   const unlockMessage = slug ? getUnlockRequirement(slug) : undefined
   const playgrounds = content ? getModulePlaygrounds(content) : []
 
+  useEffect(() => {
+    return () => {
+      stopSpeaking()
+    }
+  }, [slug])
+
   if (!slug || !meta) {
     return (
       <div className="text-center">
@@ -112,7 +123,9 @@ export function Modul() {
   if (!content) {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <p className="mb-2 text-sm text-cyan-electric/70">Modül {meta.order}</p>
+        <p className="mb-2 text-sm text-cyan-electric/70">
+          Sezon {meta.season} · Modül {meta.order}
+        </p>
         <h1 className="font-display text-3xl font-bold text-white">{meta.title}</h1>
         <p className="mt-2 text-slate-400">{meta.subtitle}</p>
         <Callout title="İçerik yakında" variant="tip">
@@ -124,53 +137,68 @@ export function Modul() {
     )
   }
 
+  const goalNarration = content.goalNarration ?? content.goal
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Link to="/yol" className="text-sm text-slate-500 hover:text-cyan-glow">
         ← Yol haritası
       </Link>
-      <p className="mt-4 text-sm font-medium text-cyan-electric/70">Modül {content.order}</p>
+      <p className="mt-4 text-sm font-medium text-cyan-electric/70">
+        Sezon {content.season} · {content.seasonTitle} · Modül {content.order}
+      </p>
       <h1 className="font-display text-3xl font-bold text-white">{content.title}</h1>
       <p className="mt-2 text-slate-400">{content.subtitle}</p>
 
-      {!unlocked && unlockMessage && (
+      {!unlocked && unlockMessage ? (
         <Callout title="Modül kilitli" variant="warning">
           {unlockMessage} İçeriği inceleyebilirsin; quiz ve playground önceki modül geçilince
           aktif olur.
         </Callout>
-      )}
+      ) : null}
 
       <Callout title="Modül hedefi" variant="tip">
-        <GlossaryText text={content.goal} />
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="flex-1">
+            <GlossaryText text={content.goal} />
+          </div>
+          <ListenButton text={goalNarration} />
+        </div>
       </Callout>
 
-      {content.analogy && <AnalogyCard analogy={content.analogy} unlocked={unlocked} />}
+      {content.analogy ? <AnalogyCard analogy={content.analogy} unlocked={unlocked} /> : null}
 
       {content.sections.map((section) => (
-        <LessonBlock key={section.id} title={section.title}>
+        <LessonBlock key={section.id} title={section.title} narration={section.narration}>
           <p>
             <GlossaryText text={section.body} />
           </p>
-          {section.codeBlock && (
+          {section.codeBlock ? (
             <CodeBlock language={section.codeBlock.language} code={section.codeBlock.code} />
-          )}
-          {section.visual && (
+          ) : null}
+          {section.visual ? (
             <div className="mt-4">
               <PlaygroundSlot id={section.visual} unlocked={unlocked} compact />
             </div>
-          )}
-          {section.miniPlayground && (
+          ) : null}
+          {section.miniPlayground ? (
             <div className="mt-4 rounded-lg border border-cyan-electric/10 bg-navy-900/30 p-3">
               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-cyan-electric/60">
                 Mini playground
               </p>
               <PlaygroundSlot id={section.miniPlayground} unlocked={unlocked} compact />
             </div>
-          )}
+          ) : null}
+          {section.scene3d ? (
+            <SceneHost key={section.scene3d} id={section.scene3d} />
+          ) : null}
+          {section.tryIt ? (
+            <TryItLab key={`${section.id}-tryit`} spec={section.tryIt} unlocked={unlocked} />
+          ) : null}
         </LessonBlock>
       ))}
 
-      {content.intuitions && content.intuitions.length > 0 && (
+      {content.intuitions && content.intuitions.length > 0 ? (
         <section className="mb-8">
           <h2 className="mb-1 font-display text-xl font-semibold text-white">
             Sayılarla Sezgi
@@ -184,9 +212,9 @@ export function Modul() {
             ))}
           </ul>
         </section>
-      )}
+      ) : null}
 
-      {content.tryThis && content.tryThis.length > 0 && (
+      {content.tryThis && content.tryThis.length > 0 ? (
         <section className="mb-8">
           <h2 className="mb-1 font-display text-xl font-semibold text-white">Dene Bunu</h2>
           <p className="mb-4 text-sm text-slate-500">
@@ -198,9 +226,9 @@ export function Modul() {
             ))}
           </ol>
         </section>
-      )}
+      ) : null}
 
-      {playgrounds.length > 0 && (
+      {playgrounds.length > 0 ? (
         <section className="mb-8">
           <h2 className="mb-1 font-display text-xl font-semibold text-white">Playground</h2>
           <p className="mb-4 text-sm text-slate-500">
@@ -216,7 +244,7 @@ export function Modul() {
             ))}
           </div>
         </section>
-      )}
+      ) : null}
 
       <section className="mb-8">
         <h2 className="mb-4 font-display text-xl font-semibold text-white">Quiz</h2>
@@ -228,6 +256,33 @@ export function Modul() {
           </Callout>
         )}
       </section>
+
+      <Callout title="Sıradaki adım" variant="tip">
+        <p className="text-slate-300">{content.nextHook}</p>
+      </Callout>
+
+      {content.resources && content.resources.length > 0 ? (
+        <section className="mb-8">
+          <h2 className="mb-3 font-display text-xl font-semibold text-white">Kaynaklar</h2>
+          <ul className="space-y-2">
+            {content.resources.map((resource) => (
+              <li key={resource.url}>
+                <a
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-cyan-glow hover:underline"
+                >
+                  {resource.label}
+                </a>
+                {resource.note ? (
+                  <span className="ml-2 text-xs text-slate-500">— {resource.note}</span>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <ModuleNav slug={content.slug} />
     </motion.div>
