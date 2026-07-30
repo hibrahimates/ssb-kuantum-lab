@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Sidebar, MobileNavToggle, useMobileNav } from './Sidebar'
 import { UnlockToggle } from './UnlockToggle'
+import { ThemePicker } from './ThemePicker'
 import { setLastLocation } from '../../lib/progress'
 
 interface ShellProps {
@@ -17,7 +18,7 @@ export function Shell({ fullWidth = false }: ShellProps) {
   }, [location.pathname])
 
   return (
-    <div className="flex min-h-screen bg-navy-950">
+    <div className="flex min-h-screen bg-navy-950 text-slate-200">
       <Sidebar mobileOpen={mobileOpen} onClose={closeMobile} />
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-cyan-electric/10 bg-navy-950/90 px-4 py-3 backdrop-blur-md lg:px-6">
@@ -25,7 +26,10 @@ export function Shell({ fullWidth = false }: ShellProps) {
           <span className="font-display text-sm font-semibold text-slate-400 lg:hidden">
             Kuantum Lab
           </span>
-          <UnlockToggle />
+          <div className="ml-auto flex items-center gap-2">
+            <ThemePicker />
+            <UnlockToggle />
+          </div>
         </header>
         <main
           className={`flex-1 ${fullWidth ? '' : 'mx-auto w-full max-w-5xl px-4 py-8 lg:px-8'}`}

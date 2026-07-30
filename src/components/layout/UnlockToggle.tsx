@@ -20,7 +20,7 @@ export function UnlockToggle() {
   }, [])
 
   return (
-    <div className="ml-auto flex items-center gap-2 select-none">
+    <div className="flex items-center gap-2 select-none">
       <span className="hidden text-xs font-medium text-slate-500 sm:inline">
         {active ? 'Kilitler açık' : 'Kilitleri aç'}
       </span>

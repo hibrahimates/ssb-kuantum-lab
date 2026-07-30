@@ -9,20 +9,27 @@ export default {
       },
       colors: {
         navy: {
-          950: '#050d18',
-          900: '#0a1628',
-          800: '#0f2137',
-          700: '#152d4a',
+          950: 'var(--color-navy-950)',
+          900: 'var(--color-navy-900)',
+          800: 'var(--color-navy-800)',
+          700: 'var(--color-navy-700)',
         },
         cyan: {
-          glow: '#22d3ee',
-          electric: '#06b6d4',
-          deep: '#0891b2',
+          glow: 'var(--color-cyan-glow)',
+          electric: 'var(--color-cyan-electric)',
+          deep: 'var(--color-cyan-deep)',
         },
+        slate: {
+          200: 'var(--color-slate-200)',
+          300: 'var(--color-slate-300)',
+          400: 'var(--color-slate-400)',
+          500: 'var(--color-slate-500)',
+        },
+        white: 'var(--color-white)',
       },
       backgroundImage: {
         'circuit-grid':
-          'linear-gradient(rgba(34, 211, 238, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 211, 238, 0.06) 1px, transparent 1px)',
+          'linear-gradient(color-mix(in srgb, var(--color-cyan-glow) 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-cyan-glow) 8%, transparent) 1px, transparent 1px)',
       },
       backgroundSize: {
         circuit: '48px 48px',

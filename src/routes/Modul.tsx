@@ -16,6 +16,7 @@ import { IntuitionExample } from '../components/lesson/IntuitionExample'
 import { TryThis } from '../components/lesson/TryThis'
 import { PlaygroundSlot } from '../components/lesson/PlaygroundSlot'
 import { ListenButton } from '../components/lesson/ListenButton'
+import { LessonTour } from '../components/lesson/LessonTour'
 import { TryItLab } from '../components/lesson/TryItLab'
 import { SceneHost } from '../components/three/SceneHost'
 import { QuizEngine } from '../components/quiz/QuizEngine'
@@ -144,11 +145,15 @@ export function Modul() {
       <Link to="/yol" className="text-sm text-slate-500 hover:text-cyan-glow">
         ← Yol haritası
       </Link>
-      <p className="mt-4 text-sm font-medium text-cyan-electric/70">
-        Sezon {content.season} · {content.seasonTitle} · Modül {content.order}
-      </p>
-      <h1 className="font-display text-3xl font-bold text-white">{content.title}</h1>
-      <p className="mt-2 text-slate-400">{content.subtitle}</p>
+      <div data-tour-id="intro" className="scroll-mt-28">
+        <p className="mt-4 text-sm font-medium text-cyan-electric/70">
+          Sezon {content.season} · {content.seasonTitle} · Modül {content.order}
+        </p>
+        <h1 className="font-display text-3xl font-bold text-white">{content.title}</h1>
+        <p className="mt-2 text-slate-400">{content.subtitle}</p>
+      </div>
+
+      <LessonTour content={content} />
 
       {!unlocked && unlockMessage ? (
         <Callout title="Modül kilitli" variant="warning">
@@ -157,7 +162,7 @@ export function Modul() {
         </Callout>
       ) : null}
 
-      <Callout title="Modül hedefi" variant="tip">
+      <Callout title="Modül hedefi" variant="tip" tourId="goal">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex-1">
             <GlossaryText text={content.goal} />
@@ -169,7 +174,12 @@ export function Modul() {
       {content.analogy ? <AnalogyCard analogy={content.analogy} unlocked={unlocked} /> : null}
 
       {content.sections.map((section) => (
-        <LessonBlock key={section.id} title={section.title} narration={section.narration}>
+        <LessonBlock
+          key={section.id}
+          title={section.title}
+          narration={section.narration}
+          tourId={section.id}
+        >
           <p>
             <GlossaryText text={section.body} />
           </p>
@@ -257,7 +267,7 @@ export function Modul() {
         )}
       </section>
 
-      <Callout title="Sıradaki adım" variant="tip">
+      <Callout title="Sıradaki adım" variant="tip" tourId="next-hook">
         <p className="text-slate-300">{content.nextHook}</p>
       </Callout>
 

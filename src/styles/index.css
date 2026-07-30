@@ -1,6 +1,70 @@
 @import 'tailwindcss';
 @config '../../tailwind.config.js';
 
+/* Tema tokenleri — Tailwind navy/cyan sınıfları bunlara bağlanır */
+:root,
+[data-theme='midnight'] {
+  --color-navy-950: #050d18;
+  --color-navy-900: #0a1628;
+  --color-navy-800: #0f2137;
+  --color-navy-700: #152d4a;
+  --color-cyan-glow: #22d3ee;
+  --color-cyan-electric: #06b6d4;
+  --color-cyan-deep: #0891b2;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-white: #ffffff;
+  --tour-ring: rgba(34, 211, 238, 0.45);
+  --hero-glow-top: rgba(6, 182, 212, 0.25);
+  --hero-glow-from: #0a1628;
+  --hero-glow-to: #050d18;
+  color-scheme: dark;
+}
+
+/* Göz yormayan: düşük kontrast, yumuşak yeşilimsi vurgu */
+[data-theme='soft'] {
+  --color-navy-950: #1a1d23;
+  --color-navy-900: #22262e;
+  --color-navy-800: #2a303a;
+  --color-navy-700: #353c48;
+  --color-cyan-glow: #8ec9b8;
+  --color-cyan-electric: #6bada0;
+  --color-cyan-deep: #4f8f84;
+  --color-slate-200: #d4d4d8;
+  --color-slate-300: #c4c4c8;
+  --color-slate-400: #a1a1aa;
+  --color-slate-500: #78787f;
+  --color-white: #ececee;
+  --tour-ring: rgba(142, 201, 184, 0.4);
+  --hero-glow-top: rgba(107, 173, 160, 0.12);
+  --hero-glow-from: #22262e;
+  --hero-glow-to: #1a1d23;
+  color-scheme: dark;
+}
+
+/* Açık okuma: sıcak kağıt */
+[data-theme='paper'] {
+  --color-navy-950: #f3f0e8;
+  --color-navy-900: #ebe6da;
+  --color-navy-800: #e2dccd;
+  --color-navy-700: #d4cdb8;
+  --color-cyan-glow: #0f766e;
+  --color-cyan-electric: #0d9488;
+  --color-cyan-deep: #115e59;
+  --color-slate-200: #3f3a32;
+  --color-slate-300: #4a453c;
+  --color-slate-400: #6b6558;
+  --color-slate-500: #8a8374;
+  --color-white: #1c1915;
+  --tour-ring: rgba(13, 148, 136, 0.35);
+  --hero-glow-top: rgba(13, 148, 136, 0.1);
+  --hero-glow-from: #ebe6da;
+  --hero-glow-to: #f3f0e8;
+  color-scheme: light;
+}
+
 @layer base {
   html {
     @apply scroll-smooth antialiased;
@@ -13,6 +77,13 @@
   #root {
     @apply min-h-screen;
   }
+
+  [data-tour-active='true'] {
+    outline: 2px solid var(--tour-ring);
+    outline-offset: 6px;
+    border-radius: 0.75rem;
+    transition: outline-color 0.2s ease;
+  }
 }
 
 @layer utilities {
@@ -20,9 +91,13 @@
     @apply bg-gradient-to-r from-cyan-300 via-cyan-glow to-cyan-electric bg-clip-text text-transparent;
   }
 
+  [data-theme='paper'] .text-gradient-cyan {
+    @apply from-teal-800 via-cyan-glow to-cyan-deep;
+  }
+
   .hero-glow {
     background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(6, 182, 212, 0.25), transparent),
-      linear-gradient(180deg, #0a1628 0%, #050d18 100%);
+      radial-gradient(ellipse 80% 60% at 50% -10%, var(--hero-glow-top), transparent),
+      linear-gradient(180deg, var(--hero-glow-from) 0%, var(--hero-glow-to) 100%);
   }
 }

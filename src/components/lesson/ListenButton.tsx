@@ -26,12 +26,6 @@ export function ListenButton({ text, label = 'Dinle', className = '' }: ListenBu
   const [state, setState] = useState<ListenState>('idle')
 
   useEffect(() => {
-    return () => {
-      stopSpeaking()
-    }
-  }, [])
-
-  useEffect(() => {
     const tick = setInterval(() => {
       setState((prev) => {
         const next = syncState()

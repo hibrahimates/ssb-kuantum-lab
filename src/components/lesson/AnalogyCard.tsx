@@ -14,10 +14,11 @@ export function AnalogyCard({ analogy, unlocked }: AnalogyCardProps) {
 
   return (
     <motion.aside
+      data-tour-id="analogy"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      className="my-6 overflow-hidden rounded-xl border border-cyan-electric/20 bg-gradient-to-br from-cyan-electric/10 via-navy-900/40 to-navy-800/30"
+      className="my-6 scroll-mt-28 overflow-hidden rounded-xl border border-cyan-electric/20 bg-gradient-to-br from-cyan-electric/10 via-navy-900/40 to-navy-800/30"
     >
       <div className="border-b border-cyan-electric/20 px-5 py-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
